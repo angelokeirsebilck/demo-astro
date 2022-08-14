@@ -1,50 +1,25 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro';
+import { useGraphqlQuery } from '@composables/useGraphqlQuery'
+import {entryQuery} from '@graphql/entry.gql.js'
 
+const { searchParams } = Astro.url
 
-export async function getStaticPaths() {
-    const response = await fetch(import.meta.env.PUBLIC_API_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-            query: `
-                    query entryQuery($section: [String]!, $site: [String]!) {
-                        entries(section: $section, site: $site){
-                            id
-                            title
-                            uri
-                            uri
-                            typeHandle
-                            sectionHandle
-                            siteId
-                            }
-                        }
-                    `,
-            variables: {
-                section: ['pages', 'news', 'home'],
-                site: ['defaultDe']
-            }
-        }),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': import.meta.env.PUBLIC_API_TOKEN,
-        },
-    }).then(response => response.json());
-    const { data: { entries } } = await response
-    return entries.map((entry: any) => {
-        return {
-            params: {
-                uri: entry.uri === '__home__' ? 'index' : entry.uri,
-                site: entry.siteId === 1 ? 'en' : 'de'
-            },
-            props: { entry, siteId: entry.siteId, sectionHandle: entry.sectionHandle, entryType: entry.typeHandle },
-        };
-    });
-}
+console.log(Astro.request.headers)
 
-const { entry, sectionHandle, entryType } = Astro.props;
----
+const { data: { entry} } = await useGraphqlQuery({
+	query: entryQuery,
+	routeQuery: Object.fromEntries(searchParams),
+	variables: {
+        siteId: ['1'],
+		uri: 'over-ons'
+	}
+})
 
-<DefaultLayout  />
+console.log(entry)
 
 ---
+
+<h1>{entry.title}</h1>
+
 
