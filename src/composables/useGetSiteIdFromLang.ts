@@ -5,11 +5,11 @@ interface IGetSiteIdFromLang {
 export const GetSiteIdFromLang = (params: IGetSiteIdFromLang) => {
   switch (params.lang) {
     case "nl":
-      return 1;
-    case "en":
       return 2;
+    case "en":
+      return 1;
 
     default:
-      return 1;
+      return 2;
   }
 };
