@@ -1,5 +1,5 @@
 {
-  "name": "@example/basics",
+  "name": "demo-astro",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,7 +16,6 @@
     "graphql-request": "^4.3.0"
   },
   "dependencies": {
-    "@astrojs/netlify": "^1.0.1",
-    "@astrojs/node": "^1.0.0"
+    "@astrojs/netlify": "^1.0.1"
   }
 }

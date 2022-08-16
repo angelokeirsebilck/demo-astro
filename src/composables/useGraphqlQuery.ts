@@ -50,5 +50,8 @@ export const useGraphqlQuery = (params: IGraphqlQuery) => {
       Authorization: PUBLIC_GRAPHQL_API_TOKEN,
       ...customHeaders,
     },
-  }).then((response) => response.json());
+  }).then((response) => {
+    console.log(response);
+    return response.json();
+  });
 };
