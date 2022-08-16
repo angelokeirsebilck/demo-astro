@@ -1,0 +1,30 @@
+---
+import { useGraphqlQuery } from '@composables/useGraphqlQuery'
+import { home } from '@graphql/home.gql.js'
+const { searchParams } = Astro.url
+
+export interface Props {
+	id: string;
+	siteId: number;
+    uri: string;
+}
+
+const { id,  siteId, uri} = Astro.props as Props;
+
+const { data: { entry} } = await useGraphqlQuery({
+	query: home,
+	routeQuery: Object.fromEntries(searchParams),
+	variables: {
+        siteId,
+		uri
+	}
+})
+
+---
+
+<h1>HOME</h1>
+<h2>{entry.title}</h2>
+
+
+
+

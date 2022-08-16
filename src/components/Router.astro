@@ -1,0 +1,40 @@
+---
+
+import Home from "@components/views/Home.astro";
+import PagesBlogOverview from "@components/views/pages/PagesBlogOverview.astro";
+import PagesDefault from "@components/views/pages/PagesDefault.astro";
+import BlogDefault from "@components/views/blog/BlogDefault.astro";
+
+export interface Props {
+	id: string;
+	siteId: number;
+	sectionHandle: string;
+    slug: string;
+    typeHandle: string;
+    title: string;
+    uri: string;
+}
+
+const { id, title, siteId, sectionHandle, slug, typeHandle, uri } = Astro.props as Props;
+
+let EntryTypeElement: any = PagesDefault
+
+switch (`${sectionHandle}-${typeHandle}`) {
+    case 'home-home':
+        EntryTypeElement = Home
+        break;
+    case 'pages-default':
+        EntryTypeElement = PagesDefault
+        break;
+    case 'pages-blog':
+        EntryTypeElement = PagesBlogOverview
+        break;
+    case 'blog-default':
+    EntryTypeElement = BlogDefault
+        break;
+}
+
+---
+
+<EntryTypeElement {id} {siteId} {uri} />
+

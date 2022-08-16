@@ -1,14 +1,18 @@
 ---
+import Router from '@components/Router.astro'
+
 export interface Props {
 	title: string;
 	id: string;
 	siteId: number;
 	sectionHandle: string;
-	entryType: string;
+	typeHandle: string;
 	lang: string;
+	uri: string;
+	slug: string;
 }
 
-const { title, id, siteId, sectionHandle, entryType, lang } = Astro.props as Props;
+const { title, id, siteId, sectionHandle, typeHandle, lang, uri, slug } = Astro.props as Props;
 ---
 
 <!DOCTYPE html>
@@ -22,7 +26,7 @@ const { title, id, siteId, sectionHandle, entryType, lang } = Astro.props as Pro
 	</head>
 	<body>
 		<main class="container mx-auto">
-			<slot />
+			<Router {sectionHandle} {title} {uri} {slug} {typeHandle} {id} {siteId}  />
 		</main>
 	</body>
 </html>
