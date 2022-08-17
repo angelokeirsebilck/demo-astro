@@ -4,6 +4,7 @@ import Home from "@components/views/Home.astro";
 import PagesBlogOverview from "@components/views/pages/PagesBlogOverview.astro";
 import PagesDefault from "@components/views/pages/PagesDefault.astro";
 import BlogDefault from "@components/views/blog/BlogDefault.astro";
+import BlogCategory from "@components/views/blog/BlogCategory.astro";
 
 export interface Props {
 	id: string;
@@ -13,11 +14,16 @@ export interface Props {
     typeHandle: string;
     title: string;
     uri: string;
+    lang: string
+    groupHandle: string;
 }
 
-const { id, title, siteId, sectionHandle, slug, typeHandle, uri } = Astro.props as Props;
+const { id, title, siteId, sectionHandle, slug, typeHandle, uri, lang, groupHandle } = Astro.props as Props;
 
 let EntryTypeElement: any = PagesDefault
+// console.log(groupHandle)
+
+
 
 switch (`${sectionHandle}-${typeHandle}`) {
     case 'home-home':
@@ -34,7 +40,14 @@ switch (`${sectionHandle}-${typeHandle}`) {
         break;
 }
 
+switch (groupHandle) {
+    case 'blog':
+        EntryTypeElement = BlogCategory
+        break;
+}
+
+
 ---
 
-<EntryTypeElement {id} {siteId} {uri} />
+<EntryTypeElement {id} {siteId} {uri} {lang} />
 

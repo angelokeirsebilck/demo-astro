@@ -1,3 +1,32 @@
 ---
+import { useGraphqlQuery } from '@composables/useGraphqlQuery'
+import {navMain} from '@graphql/nav/nav-main.gql'
+
+export interface Props {
+	siteId: number;
+    lang: string
+}
+
+const { siteId, lang } = Astro.props as Props;
+
+const { data: {navigationNodes} } = await useGraphqlQuery({
+	query: navMain,
+	variables: {
+        siteId
+    },
+	routeQuery: {}
+})
 
 ---
+
+<ul>
+    {navigationNodes.map((navItem: any) => (
+      <ul>
+        <li> 
+            <a href={`/${lang}/${navItem.element.uri}`}>
+                {navItem.title}
+            </a>
+            </li>
+        </ul>
+    ))}
+  </ul>

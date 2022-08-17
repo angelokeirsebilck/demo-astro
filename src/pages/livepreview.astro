@@ -1,0 +1,24 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro';
+import { useGraphqlQuery } from '@composables/useGraphqlQuery'
+import {entryQuery} from '@graphql/entry.gql.js'
+import { GetSiteIdFromLang } from '@composables/useGetSiteIdFromLang';
+
+const { searchParams } = Astro.url
+const { lang, uri } = Astro.params;
+
+const parsedUri = uri ? uri : '__home__';
+
+
+const { data: { entry} } = await useGraphqlQuery({
+	query: entryQuery,
+	routeQuery: Object.fromEntries(searchParams),
+	variables: {
+        siteId: GetSiteIdFromLang({lang} ),
+		uri: parsedUri.toString()
+	}
+})
+
+---
+
+<DefaultLayout title={entry.title} groupHandle={entry.groupHandle} id={entry.id} siteId={entry.siteId} sectionHandle={entry.sectionHandle} typeHandle={entry.typeHandle} lang={entry.lang}  uri={entry.uri} slug={entry.slug} />

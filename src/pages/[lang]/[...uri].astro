@@ -1,32 +1,50 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro';
 import { useGraphqlQuery } from '@composables/useGraphqlQuery'
-import {entryQuery} from '@graphql/entry.gql.js'
-import { GetSiteIdFromLang } from '@composables/useGetSiteIdFromLang';
+import {entriesQuery} from '@graphql/entries.gql'
+import { entryQuery } from '@graphql/entry.gql';
+import { categoriesQuery } from '@graphql/categories.gql';
 
 
-const { searchParams } = Astro.url
-
-const { lang, uri } = Astro.params;
-
-const parsedUri = uri ? uri : '__home__';
-
-const { data: { entry} } = await useGraphqlQuery({
-	query: entryQuery,
-	routeQuery: Object.fromEntries(searchParams),
-	variables: {
-        siteId: GetSiteIdFromLang({lang} ),
-		uri: parsedUri.toString()
-	}
+export async function getStaticPaths() {
+	const { data: { entries} } = await useGraphqlQuery({
+	query: entriesQuery,
+	variables: {},
+	routeQuery: {}
 })
 
-if (!entry) {
-return new Response(null, {
-    status: 404,
-    statusText: 'Not found'
-});
+const { data: { categories} } = await useGraphqlQuery({
+	query: categoriesQuery,
+	variables: {},
+	routeQuery: {}
+})
+
+const merged = entries.concat(categories)
+
+return merged.map((entry: any) => {
+   
+        return {
+            params: {
+                uri: entry.uri === '__home__' ? undefined : entry.uri,
+                lang: entry.language.substring(0,2)
+            },
+            props: { 
+                title: entry.title,
+                id: entry.id,
+                siteId: entry.siteId, 
+                sectionHandle: entry.sectionHandle,
+                typeHandle: entry.typeHandle,
+				lang: entry.language,
+				uri: entry.uri,
+				slug: entry.slug,
+                groupHandle: entry.groupHandle
+             },
+        };
+    });
 }
+
+const { title, id, siteId, sectionHandle, typeHandle,lang , uri, slug, groupHandle } = Astro.props;
 
 ---
 
-<DefaultLayout title={entry.title} id={entry.id} siteId={entry.siteId} sectionHandle={entry.sectionHandle} typeHandle={entry.typeHandle} lang={entry.lang}  uri={entry.uri} slug={entry.slug} />
+<DefaultLayout {title} {id} {siteId} {sectionHandle} {typeHandle} {lang} {uri} {slug} {groupHandle} />
