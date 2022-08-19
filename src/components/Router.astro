@@ -1,5 +1,4 @@
 ---
-
 import Home from "@components/views/Home.astro";
 import PagesBlogOverview from "@components/views/pages/PagesBlogOverview.astro";
 import PagesDefault from "@components/views/pages/PagesDefault.astro";
@@ -7,47 +6,52 @@ import BlogDefault from "@components/views/blog/BlogDefault.astro";
 import BlogCategory from "@components/views/blog/BlogCategory.astro";
 
 export interface Props {
-	id: string;
-	siteId: number;
-	sectionHandle: string;
-    slug: string;
-    typeHandle: string;
-    title: string;
-    uri: string;
-    lang: string
-    groupHandle: string;
+  id: string;
+  siteId: number;
+  sectionHandle: string;
+  slug: string;
+  typeHandle: string;
+  title: string;
+  uri: string;
+  lang: string;
+  groupHandle: string;
 }
 
-const { id, title, siteId, sectionHandle, slug, typeHandle, uri, lang, groupHandle } = Astro.props as Props;
+const {
+  id,
+  title,
+  siteId,
+  sectionHandle,
+  slug,
+  typeHandle,
+  uri,
+  lang,
+  groupHandle,
+} = Astro.props as Props;
 
-let EntryTypeElement: any = PagesDefault
+let EntryTypeElement: any = PagesDefault;
 // console.log(groupHandle)
 
-
-
 switch (`${sectionHandle}-${typeHandle}`) {
-    case 'home-home':
-        EntryTypeElement = Home
-        break;
-    case 'pages-default':
-        EntryTypeElement = PagesDefault
-        break;
-    case 'pages-blog':
-        EntryTypeElement = PagesBlogOverview
-        break;
-    case 'blog-default':
-    EntryTypeElement = BlogDefault
-        break;
+  case "home-home":
+    EntryTypeElement = Home;
+    break;
+  case "pages-default":
+    EntryTypeElement = PagesDefault;
+    break;
+  case "pages-blog":
+    EntryTypeElement = PagesBlogOverview;
+    break;
+  case "blog-default":
+    EntryTypeElement = BlogDefault;
+    break;
 }
 
 switch (groupHandle) {
-    case 'blog':
-        EntryTypeElement = BlogCategory
-        break;
+  case "blog":
+    EntryTypeElement = BlogCategory;
+    break;
 }
-
-
 ---
 
 <EntryTypeElement {id} {siteId} {uri} {lang} />
-

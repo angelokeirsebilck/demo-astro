@@ -1,0 +1,26 @@
+---
+import Text from "@components/pagebuilder/blocks/Text.astro";
+import Image from "@components/pagebuilder/blocks/Image.astro";
+import VizyBlocks from "@components/pagebuilder/VizyBlocks.astro";
+
+export interface Props {
+  nodes: [];
+}
+
+const { nodes } = Astro.props as Props;
+---
+
+{
+  nodes.map((node) => {
+    switch (node.type) {
+      case "heading":
+        return <Text text={node.html} />;
+      case "paragraph":
+        return <Text text={node.html} />;
+      case "vizyBlock":
+        return <VizyBlocks node={node} blockType={node.blockTypeHandle} />;
+      default:
+        return <Text />;
+    }
+  })
+}

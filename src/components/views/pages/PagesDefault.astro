@@ -1,26 +1,30 @@
 ---
-import { useGraphqlQuery } from '@composables/useGraphqlQuery'
-import { pagesDefault } from '@graphql/pages-default.gql.js'
-const { searchParams } = Astro.url
+import PageBuilder from "@components/pagebuilder/PageBuilder.astro";
+import { useGraphqlQuery } from "@composables/useGraphqlQuery";
+import { pagesDefault } from "@graphql/pages-default.gql.js";
+const { searchParams } = Astro.url;
 
 export interface Props {
-	id: string;
-	siteId: number;
-    uri: string;
+  id: string;
+  siteId: number;
+  uri: string;
 }
 
-const { id,  siteId, uri} = Astro.props as Props;
+const { id, siteId, uri } = Astro.props as Props;
 
-const { data: { entry} } = await useGraphqlQuery({
-	query: pagesDefault,
-	routeQuery: Object.fromEntries(searchParams),
-	variables: {
-        siteId,
-		uri
-	}
-})
-
+const {
+  data: { entry },
+} = await useGraphqlQuery({
+  query: pagesDefault,
+  routeQuery: Object.fromEntries(searchParams),
+  variables: {
+    siteId,
+    uri,
+  },
+});
 ---
 
 <h1>Pages - Default</h1>
 <h2>{entry.title}</h2>
+
+<PageBuilder nodes={entry.fieldPageBuilder.nodes} />

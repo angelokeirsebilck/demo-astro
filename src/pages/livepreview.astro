@@ -1,24 +1,22 @@
 ---
-import DefaultLayout from '@layouts/DefaultLayout.astro';
-import { useGraphqlQuery } from '@composables/useGraphqlQuery'
-import {entryQuery} from '@graphql/entry.gql.js'
-import { GetSiteIdFromLang } from '@composables/useGetSiteIdFromLang';
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { useGraphqlQuery } from "@composables/useGraphqlQuery";
+import { entryQuery } from "@graphql/entry.gql";
+import { GetSiteIdFromLang } from "@composables/useGetSiteIdFromLang";
 
-const { searchParams } = Astro.url
-const { lang, uri } = Astro.params;
-
-const parsedUri = uri ? uri : '__home__';
-
-
-const { data: { entry} } = await useGraphqlQuery({
-	query: entryQuery,
-	routeQuery: Object.fromEntries(searchParams),
-	variables: {
-        siteId: GetSiteIdFromLang({lang} ),
-		uri: parsedUri.toString()
-	}
-})
-
+import FetchPreviewData from "@components/FetchPreviewData.svelte";
 ---
 
-<DefaultLayout title={entry.title} groupHandle={entry.groupHandle} id={entry.id} siteId={entry.siteId} sectionHandle={entry.sectionHandle} typeHandle={entry.typeHandle} lang={entry.lang}  uri={entry.uri} slug={entry.slug} />
+<script>
+  import Test from "@components/Test.astro";
+
+  const title = "coming frm preview";
+
+  let EntryTypeElement: any = title;
+  if (title) {
+    EntryTypeElement = Test;
+  }
+</script>
+
+<h1>{title}</h1>
+<!-- <DefaultLayout title={entry?.title} groupHandle={entry.?groupHandle} id={entry.?id} siteId={entry.?siteId} sectionHandle={entry.?sectionHandle} typeHandle={entry.?typeHandle} lang={entry.?lang}  uri={entry.?uri} slug={entry.?slug} /> -->

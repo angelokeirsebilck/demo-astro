@@ -1,0 +1,14 @@
+---
+import Text from "@components/pagebuilder/blocks/Text.astro";
+import Image from "@components/pagebuilder/blocks/Image.astro";
+
+export interface Props {
+  blockType: string;
+  node: object;
+}
+
+const { blockType, node } = Astro.props as Props;
+---
+
+{blockType == "blockText" && <Text text={node.fieldText} />}
+{blockType == "blockImage" && <Image src={node.fieldImage[0].url} />}

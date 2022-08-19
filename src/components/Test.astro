@@ -1,0 +1,13 @@
+---
+import { entryQuery } from "@graphql/entry.gql";
+
+
+const { title } = Astro.props;
+
+const previewContent = title ? title :  '<h1>Astro slot component</h1>'
+
+
+---
+
+
+{previewContent}

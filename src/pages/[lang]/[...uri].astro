@@ -1,50 +1,71 @@
 ---
-import DefaultLayout from '@layouts/DefaultLayout.astro';
-import { useGraphqlQuery } from '@composables/useGraphqlQuery'
-import {entriesQuery} from '@graphql/entries.gql'
-import { entryQuery } from '@graphql/entry.gql';
-import { categoriesQuery } from '@graphql/categories.gql';
-
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { useGraphqlQuery } from "@composables/useGraphqlQuery";
+import { entriesQuery } from "@graphql/entries.gql";
+import { entryQuery } from "@graphql/entry.gql";
+import { categoriesQuery } from "@graphql/categories.gql";
 
 export async function getStaticPaths() {
-	const { data: { entries} } = await useGraphqlQuery({
-	query: entriesQuery,
-	variables: {},
-	routeQuery: {}
-})
+  const {
+    data: { entries },
+  } = await useGraphqlQuery({
+    query: entriesQuery,
+    variables: {},
+    routeQuery: {},
+  });
 
-const { data: { categories} } = await useGraphqlQuery({
-	query: categoriesQuery,
-	variables: {},
-	routeQuery: {}
-})
+  const {
+    data: { categories },
+  } = await useGraphqlQuery({
+    query: categoriesQuery,
+    variables: {},
+    routeQuery: {},
+  });
 
-const merged = entries.concat(categories)
+  const merged = entries.concat(categories);
 
-return merged.map((entry: any) => {
-   
-        return {
-            params: {
-                uri: entry.uri === '__home__' ? undefined : entry.uri,
-                lang: entry.language.substring(0,2)
-            },
-            props: { 
-                title: entry.title,
-                id: entry.id,
-                siteId: entry.siteId, 
-                sectionHandle: entry.sectionHandle,
-                typeHandle: entry.typeHandle,
-				lang: entry.language,
-				uri: entry.uri,
-				slug: entry.slug,
-                groupHandle: entry.groupHandle
-             },
-        };
-    });
+  return merged.map((entry: any) => {
+    return {
+      params: {
+        uri: entry.uri === "__home__" ? undefined : entry.uri,
+        lang: entry.language.substring(0, 2),
+      },
+      props: {
+        title: entry.title,
+        id: entry.id,
+        siteId: entry.siteId,
+        sectionHandle: entry.sectionHandle,
+        typeHandle: entry.typeHandle,
+        lang: entry.language,
+        uri: entry.uri,
+        slug: entry.slug,
+        groupHandle: entry.groupHandle,
+      },
+    };
+  });
 }
 
-const { title, id, siteId, sectionHandle, typeHandle,lang , uri, slug, groupHandle } = Astro.props;
-
+const {
+  title,
+  id,
+  siteId,
+  sectionHandle,
+  typeHandle,
+  lang,
+  uri,
+  slug,
+  groupHandle,
+} = Astro.props;
 ---
 
-<DefaultLayout {title} {id} {siteId} {sectionHandle} {typeHandle} {lang} {uri} {slug} {groupHandle} />
+<DefaultLayout
+  {title}
+  {id}
+  {siteId}
+  {sectionHandle}
+  {typeHandle}
+  {lang}
+  {uri}
+  {slug}
+  {groupHandle}
+/>

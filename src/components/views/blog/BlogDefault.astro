@@ -1,25 +1,26 @@
 ---
-import { useGraphqlQuery } from '@composables/useGraphqlQuery'
-import { blogDefault } from '@graphql/blog-default.gql.js'
-const { searchParams } = Astro.url
+import { useGraphqlQuery } from "@composables/useGraphqlQuery";
+import { blogDefault } from "@graphql/blog-default.gql.js";
+const { searchParams } = Astro.url;
 
 export interface Props {
-	id: string;
-	siteId: number;
-    uri: string;
+  id: string;
+  siteId: number;
+  uri: string;
 }
 
-const { id,  siteId, uri} = Astro.props as Props;
+const { id, siteId, uri } = Astro.props as Props;
 
-const { data: { entry} } = await useGraphqlQuery({
-	query: blogDefault,
-	routeQuery: Object.fromEntries(searchParams),
-	variables: {
-        siteId,
-		uri
-	}
-})
-
+const {
+  data: { entry },
+} = await useGraphqlQuery({
+  query: blogDefault,
+  routeQuery: Object.fromEntries(searchParams),
+  variables: {
+    siteId,
+    uri,
+  },
+});
 ---
 
 <h1>Blog - Default</h1>
