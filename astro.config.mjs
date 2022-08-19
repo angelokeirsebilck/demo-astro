@@ -4,12 +4,13 @@ import { loadEnv } from "vite";
 import netlify from "@astrojs/netlify/functions";
 import svelte from "@astrojs/svelte";
 import image from "@astrojs/image";
+import prefetch from "@astrojs/prefetch";
 
 // https://astro.build/config
 export default defineConfig((mode) => {
   const { PUBLIC_SITE, PUBLIC_LIVE_PREVIEW } = loadEnv(mode, process.cwd(), "");
   const settings = {
-    integrations: [tailwind(), svelte(), image()],
+    integrations: [tailwind(), svelte(), image(), prefetch()],
     site: PUBLIC_SITE,
     build: {
       format: "file",
