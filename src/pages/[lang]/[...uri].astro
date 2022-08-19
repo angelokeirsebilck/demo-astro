@@ -13,8 +13,6 @@ export async function getStaticPaths() {
     routeQuery: {},
   });
 
-  console.log(entries);
-
   const {
     data: { categories },
   } = await useGraphqlQuery({

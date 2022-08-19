@@ -13,7 +13,8 @@ interface ICustomHeaders {
 }
 
 export const useGraphqlQuery = (params: IGraphqlQuery) => {
-  const { GRAPHQL_API_TOKEN, GRAPHQL_API_ENDPOINT } = import.meta.env;
+  const { PUBLIC_GRAPHQL_API_TOKEN, PUBLIC_GRAPHQL_API_ENDPOINT } = import.meta
+    .env;
 
   const {
     preview,
@@ -24,8 +25,8 @@ export const useGraphqlQuery = (params: IGraphqlQuery) => {
 
   const apiUrl =
     preview && token
-      ? `${GRAPHQL_API_ENDPOINT}?token=${token}`
-      : GRAPHQL_API_ENDPOINT;
+      ? `${PUBLIC_GRAPHQL_API_ENDPOINT}?token=${token}`
+      : PUBLIC_GRAPHQL_API_ENDPOINT;
   const customHeaders: ICustomHeaders = {};
 
   // If Live Preview
@@ -46,7 +47,7 @@ export const useGraphqlQuery = (params: IGraphqlQuery) => {
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: GRAPHQL_API_TOKEN,
+      Authorization: PUBLIC_GRAPHQL_API_TOKEN,
       ...customHeaders,
     },
   }).then((response) => response.json());
