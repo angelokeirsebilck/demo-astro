@@ -51,7 +51,6 @@ export const useGraphqlQuery = (params: IGraphqlQuery) => {
       ...customHeaders,
     },
   }).then((response) => {
-    console.log(response);
     return response.json();
   });
 };
