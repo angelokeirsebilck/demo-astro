@@ -2,7 +2,6 @@
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import { useGraphqlQuery } from "@composables/useGraphqlQuery";
 import { entriesQuery } from "@graphql/entries.gql";
-import { entryQuery } from "@graphql/entry.gql";
 import { categoriesQuery } from "@graphql/categories.gql";
 
 export async function getStaticPaths() {
@@ -13,6 +12,8 @@ export async function getStaticPaths() {
     variables: {},
     routeQuery: {},
   });
+
+  console.log(entries);
 
   const {
     data: { categories },
