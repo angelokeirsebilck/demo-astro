@@ -1,8 +1,8 @@
-import { gql } from "graphql-request";
+import { gql } from "graphql-request"
 
 export const entryQuery = gql`
-  query entryQuery($section: [String]!, $site: [String]!) {
-    entry(section: $section, site: $site) {
+  query entryQuery($uri: [String]!, $siteId: [QueryArgument]!) {
+    entry(uri: $uri, siteId: $siteId) {
       id
       title
       uri
@@ -10,6 +10,7 @@ export const entryQuery = gql`
       typeHandle
       sectionHandle
       siteId
+      language
     }
   }
-`;
+`

@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from "graphql-request"
 
 export const pagesDefault = gql`
   query entryQuery($uri: [String]!, $siteId: [QueryArgument]!) {
@@ -31,4 +31,4 @@ export const pagesDefault = gql`
       }
     }
   }
-`;
+`

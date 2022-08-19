@@ -1,70 +1,36 @@
 ---
-import DefaultLayout from "@layouts/DefaultLayout.astro";
-import { useGraphqlQuery } from "@composables/useGraphqlQuery";
-import { entriesQuery } from "@graphql/entries.gql";
-import { categoriesQuery } from "@graphql/categories.gql";
+import DefaultLayout from "@layouts/DefaultLayout.astro"
+import { useGraphqlQuery } from "@composables/useGraphqlQuery"
+import { entryQuery } from "@graphql/entry.gql.js"
+import { categoryQuery } from "@graphql/category.gql"
+import { GetSiteIdFromLang } from "@composables/useGetSiteIdFromLang"
 
-export async function getStaticPaths() {
-  const {
-    data: { entries },
-  } = await useGraphqlQuery({
-    query: entriesQuery,
-    variables: {},
-    routeQuery: {},
-  });
+const { searchParams } = Astro.url
+const { lang, uri } = Astro.params
 
-  const {
-    data: { categories },
-  } = await useGraphqlQuery({
-    query: categoriesQuery,
-    variables: {},
-    routeQuery: {},
-  });
-
-  const merged = entries.concat(categories);
-
-  return merged.map((entry: any) => {
-    return {
-      params: {
-        uri: entry.uri === "__home__" ? undefined : entry.uri,
-        lang: entry.language.substring(0, 2),
-      },
-      props: {
-        title: entry.title,
-        id: entry.id,
-        siteId: entry.siteId,
-        sectionHandle: entry.sectionHandle,
-        typeHandle: entry.typeHandle,
-        lang: entry.language,
-        uri: entry.uri,
-        slug: entry.slug,
-        groupHandle: entry.groupHandle,
-      },
-    };
-  });
-}
+const parsedUri = uri ? uri : "__home__"
 
 const {
-  title,
-  id,
-  siteId,
-  sectionHandle,
-  typeHandle,
-  lang,
-  uri,
-  slug,
-  groupHandle,
-} = Astro.props;
+  data: { entry },
+} = await useGraphqlQuery({
+  query: entryQuery,
+  routeQuery: Object.fromEntries(searchParams),
+  variables: {
+    siteId: GetSiteIdFromLang({ lang }),
+    uri: parsedUri.toString(),
+  },
+})
+console.log(entry)
 ---
 
 <DefaultLayout
-  {title}
-  {id}
-  {siteId}
-  {sectionHandle}
-  {typeHandle}
-  {lang}
-  {uri}
-  {slug}
-  {groupHandle}
+  title={entry.title}
+  id={entry.id}
+  siteId={entry.siteId}
+  sectionHandle={entry.sectionHandle}
+  typeHandle={entry.typeHandle}
+  lang={entry.language}
+  uri={entry.uri}
+  slug={entry.slug}
+  groupHandle={entry.groupHandle}
 />
