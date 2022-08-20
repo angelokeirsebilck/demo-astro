@@ -1,8 +1,8 @@
 ---
-import DefaultLayout from "@layouts/DefaultLayout.astro";
-import { useGraphqlQuery } from "@composables/useGraphqlQuery";
-import { entriesQuery } from "@graphql/entries.gql";
-import { categoriesQuery } from "@graphql/categories.gql";
+import DefaultLayout from "@layouts/DefaultLayout.astro"
+import { useGraphqlQuery } from "@composables/useGraphqlQuery"
+import { entriesQuery } from "@graphql/entries.gql.js"
+import { categoriesQuery } from "@graphql/categories.gql"
 
 export async function getStaticPaths() {
   const {
@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     query: entriesQuery,
     variables: {},
     routeQuery: {},
-  });
+  })
 
   const {
     data: { categories },
@@ -19,9 +19,9 @@ export async function getStaticPaths() {
     query: categoriesQuery,
     variables: {},
     routeQuery: {},
-  });
+  })
 
-  const merged = entries.concat(categories);
+  const merged = entries.concat(categories)
 
   return merged.map((entry: any) => {
     return {
@@ -40,8 +40,8 @@ export async function getStaticPaths() {
         slug: entry.slug,
         groupHandle: entry.groupHandle,
       },
-    };
-  });
+    }
+  })
 }
 
 const {
@@ -54,7 +54,7 @@ const {
   uri,
   slug,
   groupHandle,
-} = Astro.props;
+} = Astro.props
 ---
 
 <DefaultLayout
