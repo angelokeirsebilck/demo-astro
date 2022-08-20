@@ -1,42 +1,42 @@
 interface IGraphqlQuery {
-  query: string;
+  query: string
   routeQuery?: {
-    [key: string]: string | string[] | number;
-  };
+    [key: string]: string | string[] | number
+  }
   variables?: {
-    [key: string]: string | string[] | number;
-  };
+    [key: string]: string | string[] | number
+  }
 }
 
 interface ICustomHeaders {
-  [key: string]: string | string[];
+  [key: string]: string | string[]
 }
 
 export const useGraphqlQuery = (params: IGraphqlQuery) => {
   const { PUBLIC_GRAPHQL_API_TOKEN, PUBLIC_GRAPHQL_API_ENDPOINT } = import.meta
-    .env;
+    .env
 
   const {
     preview,
     token,
     "x-craft-preview": xCraftPreview,
     "x-craft-live-preview": xCraftLivePreview,
-  } = params.routeQuery;
+  } = params.routeQuery
 
   const apiUrl =
     preview && token
       ? `${PUBLIC_GRAPHQL_API_ENDPOINT}?token=${token}`
-      : PUBLIC_GRAPHQL_API_ENDPOINT;
-  const customHeaders: ICustomHeaders = {};
+      : PUBLIC_GRAPHQL_API_ENDPOINT
+  const customHeaders: ICustomHeaders = {}
 
   // If Live Preview
   if (preview && xCraftLivePreview) {
-    customHeaders["x-craft-live-preview"] = xCraftLivePreview;
+    customHeaders["x-craft-live-preview"] = xCraftLivePreview
   }
 
   // If Preview
   if (preview && xCraftPreview) {
-    customHeaders["x-craft-preview"] = xCraftPreview;
+    customHeaders["x-craft-preview"] = xCraftPreview
   }
 
   return fetch(apiUrl, {
@@ -51,6 +51,6 @@ export const useGraphqlQuery = (params: IGraphqlQuery) => {
       ...customHeaders,
     },
   }).then((response) => {
-    return response.json();
-  });
-};
+    return response.json()
+  })
+}

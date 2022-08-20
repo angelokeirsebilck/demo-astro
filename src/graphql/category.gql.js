@@ -1,8 +1,8 @@
 import { gql } from "graphql-request"
 
 export const categoryQuery = gql`
-  query entryQuery($section: [String]!, $site: [String]!) {
-    entry: category(section: $section, site: $site) {
+  query entryQuery($uri: [String]!, $siteId: [QueryArgument]!) {
+    category(uri: $uri, siteId: $siteId) {
       id
       title
       uri

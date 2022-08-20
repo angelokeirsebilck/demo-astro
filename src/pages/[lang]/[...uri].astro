@@ -10,6 +10,8 @@ const { lang, uri } = Astro.params
 
 const parsedUri = uri ? uri : "__home__"
 
+let content
+
 const {
   data: { entry },
 } = await useGraphqlQuery({
@@ -20,17 +22,33 @@ const {
     uri: parsedUri.toString(),
   },
 })
-console.log(entry)
+
+content = entry
+
+if (!entry) {
+  const {
+    data: { category },
+  } = await useGraphqlQuery({
+    query: categoryQuery,
+    routeQuery: Object.fromEntries(searchParams),
+    variables: {
+      siteId: GetSiteIdFromLang({ lang }),
+      uri: parsedUri.toString(),
+    },
+  })
+
+  content = category
+}
 ---
 
 <DefaultLayout
-  title={entry.title}
-  id={entry.id}
-  siteId={entry.siteId}
-  sectionHandle={entry.sectionHandle}
-  typeHandle={entry.typeHandle}
-  lang={entry.language}
-  uri={entry.uri}
-  slug={entry.slug}
-  groupHandle={entry.groupHandle}
+  title={content.title}
+  id={content.id}
+  siteId={content.siteId}
+  sectionHandle={content.sectionHandle}
+  typeHandle={content.typeHandle}
+  lang={content.language}
+  uri={content.uri}
+  slug={content.slug}
+  groupHandle={content.groupHandle}
 />
